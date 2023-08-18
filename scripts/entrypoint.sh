@@ -14,6 +14,21 @@ QEMU_IFDOWN='/routeros/qemu-ifdown'
 # The name of the dhcpd config file we make
 DHCPD_CONF_FILE='/routeros/dhcpd.conf'
 
+# check if mac address is set
+# if not use default mac address
+if [ -z "$MAC_ADDRESS" ]; then
+   MAC_ADDRESS='52:54:00:12:34:56'
+fi
+
+# check if /dev/kvm exists and use it
+
+if [ -e /dev/kvm ]; then
+   USE_KVM='-enable-kvm'
+   echo "KVM is enabled"
+else
+   USE_KVM=''
+fi
+
 # First step, we run the things that need to happen before we start mucking
 # with the interfaces. We start by generating the DHCPD config file based
 # on our current address/routes. We "steal" the container's IP, and lease
@@ -43,11 +58,13 @@ udhcpd -I $DUMMY_DHCPD_IP -f $DHCPD_CONF_FILE &
 # -nic: Use a TAP interface with our custom up/down scripts.
 # -drive: The VM image we're booting.
 # mac: Set up your own interfaces mac addresses here, cause from winbox you can not change these later.
+echo "Starting VM..."
+echo "MAC address: $MAC_ADDRESS"
 exec qemu-system-x86_64 \
    -nographic -serial mon:stdio \
    -vnc 0.0.0.0:0 \
    -m 512 \
    -smp 4,sockets=1,cores=4,threads=1 \
-   -nic tap,id=qemu1,mac=54:05:AB:CD:12:31,script=$QEMU_IFUP,downscript=$QEMU_IFDOWN \
-   "$@" \
+   -nic tap,id=qemu1,mac=$MAC_ADDRESS,script=$QEMU_IFUP,downscript=$QEMU_IFDOWN \
+   "$@" $USE_KVM \
    -hda $ROUTEROS_IMAGE
