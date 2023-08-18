@@ -6,7 +6,6 @@ LATEST_VERSION=$(curl https://mikrotik.com/download/archive -s | grep Release -m
 echo "Latest version is $LATEST_VERSION"
 sed -r "s/(ROUTEROS_VERSON=\")(.*)(\")/\1$LATEST_VERSION\3/g" -i Dockerfile
 
-exit
 
 docker build -t ghibranalj/docker-routeros:$LATEST_VERSION .
 
