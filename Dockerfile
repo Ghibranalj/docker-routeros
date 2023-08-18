@@ -17,9 +17,9 @@ RUN set -xe \
     bridge-utils iptables jq bash python3
 
 # Environments which may be change
-ENV ROUTEROS_VERSON="6.47.3"
+ENV ROUTEROS_VERSON="7.11"
 ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
-ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSON/$ROUTEROS_IMAGE"
+ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSON/$ROUTEROS_IMAGE.zip"
 
 # Download VDI image from remote site
 RUN wget "$ROUTEROS_PATH" -O "/routeros/$ROUTEROS_IMAGE"
