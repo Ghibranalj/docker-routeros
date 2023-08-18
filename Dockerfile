@@ -14,7 +14,7 @@ RUN set -xe \
  && apk add --no-cache --update \
     netcat-openbsd qemu-x86_64 qemu-system-x86_64 \
     busybox-extras iproute2 iputils \
-    bridge-utils iptables jq bash python3
+    bridge-utils iptables jq bash python3 unzip
 
 # Environments which may be change
 ENV ROUTEROS_VERSON="7.11"
@@ -22,7 +22,10 @@ ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
 ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSON/$ROUTEROS_IMAGE.zip"
 
 # Download VDI image from remote site
-RUN wget "$ROUTEROS_PATH" -O "/routeros/$ROUTEROS_IMAGE"
+RUN wget "$ROUTEROS_PATH" -O "/routeros/$ROUTEROS_IMAGE.zip"
+
+# Unzip image
+RUN unzip "/routeros/$ROUTEROS_IMAGE.zip" -d "/routeros"
 
 # Copy script to routeros folder
 ADD ["./scripts", "/routeros"]

@@ -2,8 +2,8 @@ version: "3"
 
 services:
 
-  routeros-6-42:
-    image: evilfreelancer/docker-routeros:6.42.12
+  routeros-7.11:
+    image: ghibranalj/docker-routeros:7.11
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -15,8 +15,8 @@ services:
       - "18728:8728"
       - "18729:8729"
 
-  routeros-6-47:
-    image: evilfreelancer/docker-routeros:latest
+  routeros-latest:
+    image: ghibranalj/docker-routeros:latest
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
