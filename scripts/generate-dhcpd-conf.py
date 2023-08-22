@@ -10,20 +10,35 @@ import subprocess
 from typing import List, Iterable
 
 DEFAULT_ROUTE = 'default'
-DEFAULT_DNS_IPS = ('8.8.8.8', '8.8.4.4')
+DEFAULT_DNS_IPS = '1.1.1.1'
 
 DHCP_CONF_TEMPLATE = """
-start {host_addr}
-end   {host_addr}
-# avoid dhcpd complaining that we have
-# too many addresses
-maxleases 1
-interface {dhcp_intf}
-option dns      {dns}
-option router   {gateway}
-option subnet   {subnet}
-option hostname {hostname}
+# Specify the interface to listen on
+# interface=eth0
+
+# Specify the DHCP range
+dhcp-range={host_addr},{host_addr},{subnet},12h
+
+# Specify the default gateway
+dhcp-option=3,{gateway}
+
+# Specify the DNS server
+dhcp-option=6,{dns}
+
+# Specify lease file location
+dhcp-leasefile=/var/lib/misc/dnsmasq.leases
+
+# Disable DNS
+port=0
+
+# Don't forward DNS queries
+bogus-priv
+
+# Enable DHCP logging
+log-dhcp
+
 """
+
 
 def default_route(routes):
     """Returns the host's default route"""
@@ -41,7 +56,7 @@ def addr_of(addrs, dev : str) -> ipaddress.IPv4Interface:
         return ipaddress.IPv4Interface((info['local'], info['prefixlen']))
     raise ValueError('dev {0} not found'.format(dev))
 
-def generate_conf(intf_name : str, dns : Iterable[str]) -> str:
+def generate_conf(intf_name : str, dns_ : str) -> str:
     """Generates a dhcpd config. `intf_name` is the interface to listen on."""
     with subprocess.Popen(['ip', '-json', 'route'], stdout=subprocess.PIPE) as proc:
         routes = json.load(proc.stdout)
@@ -53,7 +68,7 @@ def generate_conf(intf_name : str, dns : Iterable[str]) -> str:
 
     return DHCP_CONF_TEMPLATE.format(
         dhcp_intf = intf_name,
-        dns = ' '.join(dns),
+        dns = dns_,
         gateway = droute['gateway'],
         host_addr = host_addr.ip,
         hostname = socket.gethostname(),
