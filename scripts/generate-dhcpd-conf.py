@@ -17,7 +17,7 @@ DHCP_CONF_TEMPLATE = """
 # interface=eth0
 
 # Specify the DHCP range
-dhcp-range={host_addr},{host_addr},{subnet},12h
+dhcp-range={host_addr},{host_addr},{subnet},12h,infinite
 
 # Specify the default gateway
 dhcp-option=3,{gateway}

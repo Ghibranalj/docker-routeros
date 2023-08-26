@@ -17,8 +17,9 @@ RUN set -xe \
     bridge-utils iptables jq bash python3 unzip\
     dnsmasq ipcalc
 
+#get version from argument or use default
+ARG ROUTEROS_VERSON="7.11"
 # Environments which may be change
-ENV ROUTEROS_VERSON="7.11"
 ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
 ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSON/$ROUTEROS_IMAGE.zip"
 
