@@ -69,6 +69,14 @@ fi
 echo "Starting dnsmasq..."
 dnsmasq -d --listen-address=$DUMMY_DHCPD_IP -C $DHCPD_CONF_FILE &
 
+mkdir -p '/image'
+TARGET_IMAGE='/image/routeros.img'
+# if Target doesnt exist copy RouterOS image to target
+if [ ! -f $TARGET_IMAGE ]; then
+   echo "Copying RouterOS image to target..."
+   cp $ROUTEROS_IMAGE $TARGET_IMAGE
+fi
+
 # And run the VM! A brief explanation of the options here:
 # -enable-kvm: Use KVM for this VM (much faster for our case).
 # -nographic: disable SDL graphics.
@@ -85,4 +93,4 @@ exec qemu-system-x86_64 \
    -smp 4,sockets=1,cores=4,threads=1 \
    -nic tap,id=qemu1,mac=$MAC_ADDRESS,script=$QEMU_IFUP,downscript=$QEMU_IFDOWN \
    "$@" $USE_KVM \
-   -hda $ROUTEROS_IMAGE
+   -hda $TARGET_IMAGE
