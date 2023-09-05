@@ -83,7 +83,6 @@ fi
 # -serial mon:stdio: use "monitored stdio" as our serial output.
 # -nic: Use a TAP interface with our custom up/down scripts.
 # -drive: The VM image we're booting.
-# mac: Set up your own interfaces mac addresses here, cause from winbox you can not change these later.
 echo "Starting VM..."
 echo "MAC address: $MAC_ADDRESS"
 exec qemu-system-x86_64 \

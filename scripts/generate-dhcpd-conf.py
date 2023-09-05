@@ -33,10 +33,6 @@ port=0
 
 # Don't forward DNS queries
 bogus-priv
-
-# Enable DHCP logging
-log-dhcp
-
 """
 
 

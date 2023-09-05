@@ -21,15 +21,14 @@ RUN set -xe \
 ARG VERSION
 ENV ROUTEROS_VERSION=$VERSION
 # Environments which may be change
-ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSION.vdi"
+ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSION.img"
 ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSION/$ROUTEROS_IMAGE.zip"
-ENV ALTERNATE_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSION/$ROUTEROS_IMAGE"
 
 # Download VDI image from remote site
-RUN wget "$ROUTEROS_PATH" -O "/routeros/$ROUTEROS_IMAGE.zip" || cd routeros ; wget "$ALTERNATE_PATH"
+RUN wget "$ROUTEROS_PATH" -O "/routeros/$ROUTEROS_IMAGE.zip"
 
 # Unzip image
-RUN unzip "/routeros/$ROUTEROS_IMAGE.zip" -d "/routeros" || echo ZIP does not exist
+RUN unzip "/routeros/$ROUTEROS_IMAGE.zip" -d "/routeros"
 
 # Copy script to routeros folder
 ADD ["./scripts", "/routeros"]
