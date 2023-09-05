@@ -9,10 +9,10 @@ for VERSION in VERSIONs; do
     docker push ghibranalj/docker-routeros:$VERSION
 done
 
-
 # Get latest Version
 LATEST=$(echo $VERSIONs | head -n 1)
 # rename tag to latest
 echo Renaming Version $LATEST to :latest
 docker tag ghibranalj/docker-routeros:$LATEST ghibranalj/docker-routeros:latest
 
+docker push ghibranalj/docker-routeros:latest
