@@ -18,10 +18,11 @@ RUN set -xe \
     dnsmasq ipcalc
 
 #get version from argument or use default
-ARG ROUTEROS_VERSON="7.11"
+ARG VERSION
+ENV ROUTEROS_VERSION=$VERSION
 # Environments which may be change
-ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
-ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSON/$ROUTEROS_IMAGE.zip"
+ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSION.vdi"
+ENV ROUTEROS_PATH="https://download.mikrotik.com/routeros/$ROUTEROS_VERSION/$ROUTEROS_IMAGE.zip"
 
 # Download VDI image from remote site
 RUN wget "$ROUTEROS_PATH" -O "/routeros/$ROUTEROS_IMAGE.zip"

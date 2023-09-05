@@ -4,13 +4,13 @@
 VERSIONs=$(curl https://mikrotik.com/download/archive -s | awk -F ' ' '/Release/{gsub(/<\/b>/, "", $3);print $3}' | tac)
 LATEST=$(curl https://mikrotik.com/download/archive -s | awk -F ' ' '/Release/{gsub(/<\/b>/, "", $3);print $3}' | head -n 1)
 # loop through the versions
-for VERSION in $VERSIONs; do
+for V in $VERSIONs; do
     cat <<EOF
 =============
-Building Version: $VERSION
+Building Version: $V
 =============
 EOF
-    docker build -t ghibranalj/docker-routeros:$VERSION . --build-arg "ROUTEROS_VERSION=$VERSION"
+    docker build -t ghibranalj/docker-routeros:$V  --build-arg VERSION="$V" .
     docker push ghibranalj/docker-routeros:$VERSION
 done
 
