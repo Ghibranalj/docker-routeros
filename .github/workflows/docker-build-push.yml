@@ -20,4 +20,5 @@ jobs:
           sh get-docker.sh
       - name: Build and Push Docker Image
         run: |
+          docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
           ./update.sh
