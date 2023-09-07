@@ -17,7 +17,9 @@ EOF
 Pushing Version: $V
 =============
 EOF
-    docker push ghibranalj/docker-routeros:$VERSION
+    docker push ghibranalj/docker-routeros:$V
+
+    exit
 done
 
     cat <<EOF
