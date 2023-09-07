@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - master
-
+  schedule:
+    - cron: 00 00 * * 0
+      
 jobs:
   build:
     name: Build and Push Docker Image
