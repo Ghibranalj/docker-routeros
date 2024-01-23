@@ -10,14 +10,14 @@ for V in $VERSIONs; do
 Building Version: $V
 =============
 EOF
-    docker build -t ghibranalj/docker-routeros:$V  --build-arg VERSION="$V" .
+    docker build -t ghibranalj/docker-routeros:$V  --build-arg VERSION="$V" . || exit 1
 
     cat <<EOF
 =============
 Pushing Version: $V
 =============
 EOF
-    docker push ghibranalj/docker-routeros:$V
+    docker push ghibranalj/docker-routeros:$V || exit 1
 done
 
     cat <<EOF
@@ -25,5 +25,5 @@ done
 Latest Version: $LATEST
 =============
 EOF
-docker tag ghibranalj/docker-routeros:$LATEST ghibranalj/docker-routeros:latest
-docker push ghibranalj/docker-routeros:latest
+docker tag ghibranalj/docker-routeros:$LATEST ghibranalj/docker-routeros:latest || exit 1
+docker push ghibranalj/docker-routeros:latest || exit 1
