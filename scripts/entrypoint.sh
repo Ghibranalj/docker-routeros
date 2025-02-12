@@ -88,8 +88,8 @@ echo "MAC address: $MAC_ADDRESS"
 exec qemu-system-x86_64 \
    -nographic -serial mon:stdio \
    -vnc 0.0.0.0:0 \
-   -m 512 \
+   -m 1024 \
    -smp 4,sockets=1,cores=4,threads=1 \
    -nic tap,id=qemu1,mac=$MAC_ADDRESS,script=$QEMU_IFUP,downscript=$QEMU_IFDOWN \
    "$@" $USE_KVM \
-   -hda $TARGET_IMAGE,format=raw
+   -drive file=$TARGET_IMAGE,format=raw
