@@ -92,4 +92,4 @@ exec qemu-system-x86_64 \
    -smp 4,sockets=1,cores=4,threads=1 \
    -nic tap,id=qemu1,mac=$MAC_ADDRESS,script=$QEMU_IFUP,downscript=$QEMU_IFDOWN \
    "$@" $USE_KVM \
-   -hda $TARGET_IMAGE
+   -hda $TARGET_IMAGE,format=raw
