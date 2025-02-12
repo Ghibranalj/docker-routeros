@@ -5,13 +5,13 @@ on:
     branches:
       - master
   schedule:
-    - cron: 0 0 */3 * *
+    - cron: 0 0 * * 0
   workflow_dispatch: 
       
 jobs:
   build:
     name: Build and Push Docker Image
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
