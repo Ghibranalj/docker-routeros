@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 # this script is used to update the docker image
  
-VERSIONs=$(curl https://mikrotik.com/download/archive -s | awk -F ' ' '/Release/{gsub(/<\/b>/, "", $3);print $3}' | tac)
-LATEST=$(curl https://mikrotik.com/download/archive -s | awk -F ' ' '/Release/{gsub(/<\/b>/, "", $3);print $3}' | head -n 1)
+VERSIONs=$(curl  -s https://mikrotik.com/download/archive | awk -F'<strong>|</strong>' '/<strong>/ {print $2}' | sort -r)
+LATEST=$(curl  -s https://mikrotik.com/download/archive | awk -F'<strong>|</strong>' '/<strong>/ {print $2}' | sort -r | head -n 1)
 # loop through the versions
 for V in $VERSIONs; do
     cat <<EOF
